@@ -1,12 +1,21 @@
 = sandbox
-Sandbox is a very small library that creates a folder in tmp for you to be able to perform tests.  When you're done, it will clean it up for you.
+Sandbox is a very small library that creates a folder in tmp for you to be able to perform tests. Your temporary path will be available while the play block is executing.  When you're done, it will clean it up for you.
 
-    Sandbox.play do |path|
-      FileUtils.touch(File.join(path, 'foo'))
-    end
+  Sandbox.play do |path|
+    FileUtils.touch(File.join(path, 'foo'))
+  end
 
-    # path has been deleted
+  # path has been deleted
 
+It will clean up even if you have an exception:
+
+  Sandbox.play do |path|
+    # do stuff in path
+    raise "boom"
+  end
+
+  # path has been deleted
+    
 = Copyright
 
 Copyright (c) 2008 Brandon Dimcheff. See LICENSE for details.
