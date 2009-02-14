@@ -15,7 +15,25 @@ It will clean up even if you have an exception:
   end
 
   # path has been deleted
-    
+
+You can also use the Sandbox object directly if necessary:
+
+  sbox = Sandbox.new
+    # do stuff
+  sbox.close  # deletes sandbox
+
+This could be useful for RSpec:
+
+  before(:each) do
+    @sbox = Sandbox.new
+  end
+
+  after(:each) do
+    @sbox.close
+  end
+
+  # specs using @sbox (with a new sandbox for each spec)
+  
 = Copyright
 
-Copyright (c) 2008 Brandon Dimcheff. See LICENSE for details.
+Copyright (c) 2009 Brandon Dimcheff. See LICENSE for details.
