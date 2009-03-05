@@ -8,18 +8,28 @@ class Sandbox
 
   # Executes the block and yields the path to the sandbox directory.
   # Cleans up the sandbox after the block is complete.
-  def self.play(path = nil, &block)
-    sandbox = Sandbox.new(path)
-    
+  # == Options
+  # [+:path+] the path to use. default:  generate one in Dir.tmpdir
+  # [+:cd+] change directory with Dir.chdir to the temp directory
+  def self.play(options = {}, &block)
+    sandbox = Sandbox.new(options[:path])
+
     begin
-      yield sandbox.path
+      if options[:cd]
+        Dir.chdir(sandbox.path) do
+          yield sandbox.path
+        end
+      else
+        yield sandbox.path
+      end
     ensure
       sandbox.close
     end
   end
 
-  # Creates a new Sandbox with an optional path.  Generates a random
-  # path in Dir.tmpdir if path is unspecified.
+  # Creates a new Sandbox with an optional path.
+  # == Parameters
+  # [+path+] The path to use.  default:  generate one in Dir.tmpdir
   def initialize(path = nil)
     self.path = path || generate_path
     
