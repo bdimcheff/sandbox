@@ -1,5 +1,5 @@
 require 'tmpdir'
-require 'sha1'
+require 'digest/sha1'
 
 # Represents a temporary sandbox for testing that relies on the
 # filesystem.
